@@ -1,5 +1,6 @@
 from . import db
 
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
 
 #------CLASS cho Web bán hàng------#
@@ -91,6 +92,22 @@ class Nguoi_dung(db.Model):
         }
         return json_user
 
+    def generate_auth_token(self, expiration):
+        s = Serializer(current_app.config['SECRET_KEY'],expiration)
+        return s.dumps({
+            'id':self.ma_nguoi_dung
+        }).decode('utf-8')
+
+    @staticmethod
+    def verify_auth_token(token):
+        s = Serializer(current_app.config['SECRET_KEY'])
+        try:
+            data = s.loads(token)
+        except:
+            return None
+        return Nguoi_dung.query.get(data['id'])
+
+
 class Khach_hang(db.Model):
     __tablename__ = 'khach_hang'
     ma_khach_hang = db.Column(db.Integer, nullable = False, primary_key = True)
@@ -129,6 +146,21 @@ class Hoa_don(db.Model):
     def get_id(self):
         return self.ma_hoa_don
 
+    def to_json(self):
+        json_order = {
+            "order_id" : self.ma_hoa_don,
+            "date": self.ngay_tao_hoa_don.strftime("%d-%m-%Y %H:%M:%S"),
+            "customer": self.ma_khach_hang,
+            "total":self.tong_tien,
+            "discount":self.giam_gia,
+            "sale_channel":self.kenh_ban,
+            "order_id_by_channel":self.ma_hoa_don_kenh_ban,
+            "delivery":self.nha_van_chuyen,
+            "shipping_code":self.ma_van_don,
+            "status":self.trang_thai
+        }
+        return json_order
+
 class Don_hang(db.Model):
     __tablename__ = 'don_hang'
     id = db.Column(db.Integer, nullable =False, primary_key = True)
@@ -144,6 +176,15 @@ class Don_hang(db.Model):
     
     def __repr__(self):
         return "<Ma_hoa_don = %d>" % self.ma_hoa_don
+
+    def to_json(self):
+        json_detail = {
+            "product_id":self.ma_san_pham,
+            "product_name":self.ten_san_pham,
+            "quantity":self.so_luong,
+            "price":self.gia_ban
+        }
+        return json_detail
 
 class Thu_chi(db.Model):
     __tablename__ = 'thu_chi'
