@@ -1,5 +1,5 @@
 from flask import Blueprint
 
-main = Blueprint('main',__name__,template_folder='main/templates',static_folder='main/static')
+main = Blueprint('main',__name__,template_folder='templates',static_folder='static')
 
 from .views import *

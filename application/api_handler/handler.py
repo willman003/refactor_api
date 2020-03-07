@@ -30,3 +30,15 @@ def api_get_users():
     response = requests.request("GET", url, headers=headers, data = payload)
     result = json.loads(response.text.encode("utf-8"))
     return result
+
+def api_get_products():
+    url = "http://localhost:5555/api/v1/products"
+
+    payload  = {}
+    headers = {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer ' + api_authentication()
+    }
+    response = requests.request("GET", url, headers=headers, data = payload)
+    result = json.loads(response.text.encode("utf-8"))
+    return result['result']
