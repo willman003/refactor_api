@@ -16,5 +16,7 @@ def create_app(config_name):
     #Blueprint registration
     from .api import api as api_bp
     app.register_blueprint(api_bp,url_prefix="/api/v1")
+    from .main import main as main_bp
+    app.register_blueprint(main_bp)
 
     return app

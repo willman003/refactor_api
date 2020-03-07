@@ -41,11 +41,11 @@ def revoke_token():
     db.session.commit()
     return '', 204
 
-@api.before_request
-@token_auth.login_required
-def before_request():
-    if not g.current_user.is_authenticated:
-        return jsonify({
-            'status':401,
-            'message':'Unauthentication'
-        }) 
+# @api.before_request
+# @token_auth.login_required
+# def before_request():
+#     if not g.current_user.is_authenticated :
+#         return jsonify({
+#             'status':401,
+#             'message':'Unauthentication'
+#         }) 

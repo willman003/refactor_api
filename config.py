@@ -6,6 +6,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or '2266'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    JSON_AS_ASCII = False
 
     @staticmethod
     def init_app(app):
