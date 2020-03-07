@@ -1,7 +1,9 @@
 from . import db
 
-from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
-
+from werkzeug.security import generate_password_hash, check_password_hash
+import base64
+from datetime import datetime, timedelta
+import os
 
 #------CLASS cho Web bán hàng------#
 class Loai_san_pham(db.Model):
@@ -62,7 +64,9 @@ class Nguoi_dung(db.Model):
     ho_ten = db.Column(db.String(200))
     ten_dang_nhap = db.Column(db.String(64), nullable = False)
     mat_khau_hash = db.Column(db.String(128), nullable = False)
-    
+    token = db.Column(db.String(32), index=True, unique=True)
+    token_expiration = db.Column(db.DateTime)
+
     loai_nguoi_dung = db.relationship(Loai_nguoi_dung,backref=db.backref('nguoi_dung',lazy='joined')) 
     @property
     def is_authenticated(self):
@@ -82,6 +86,38 @@ class Nguoi_dung(db.Model):
     
     def __str__(self):
         return self.ten_dang_nhap
+
+    @property
+    def password(self):
+        raise AttributeError('password is not a readable attribute')
+
+    @password.setter
+    def set_password(self, password):
+        self.mat_khau_hash = generate_password_hash(password)
+
+    def verify_password(self, password):
+        return check_password_hash(self.mat_khau_hash, password)
+
+    def get_token(self,expiration=3600):
+        now = datetime.utcnow()
+        if self.token and self.token_expiration > now + timedelta(seconds=60):
+            return self.token
+        self.token = base64.b64encode(os.urandom(24)).decode('utf-8')
+        self.token_expiration = now + timedelta(seconds=expiration)
+        db.session.add(self)
+        return self.token
+
+    def revoke_token(self):
+        self.token_expiration = datetime.utcnow() - timedelta(seconds=1)
+
+    @staticmethod
+    def check_token(token):
+        user = Nguoi_dung.query.filter(Nguoi_dung.token== token).first()
+        
+        if user is None or user.token_expiration < datetime.utcnow():
+            return None
+        return user
+
     def to_json(self):
         json_user = {
             "user_id":self.ma_nguoi_dung,
@@ -91,21 +127,9 @@ class Nguoi_dung(db.Model):
             
         }
         return json_user
+   
+    
 
-    def generate_auth_token(self, expiration):
-        s = Serializer(current_app.config['SECRET_KEY'],expiration)
-        return s.dumps({
-            'id':self.ma_nguoi_dung
-        }).decode('utf-8')
-
-    @staticmethod
-    def verify_auth_token(token):
-        s = Serializer(current_app.config['SECRET_KEY'])
-        try:
-            data = s.loads(token)
-        except:
-            return None
-        return Nguoi_dung.query.get(data['id'])
 
 
 class Khach_hang(db.Model):

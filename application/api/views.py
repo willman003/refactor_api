@@ -3,6 +3,7 @@ from flask import request, jsonify
 from datetime import datetime
 
 from . import api
+from .authentication import token_auth
 
 from ..models import *
 from .. import db
