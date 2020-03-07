@@ -2,6 +2,7 @@ import os
 import requests
 import json
 
+
 basic_token = os.environ.get('BASIC_TOKEN') or "d2lsbG1hbjAwMzpnYXZpcHBybzAwMw=="
 
 
@@ -27,5 +28,5 @@ def api_get_users():
     'Authorization': 'Bearer ' + api_authentication()
     }
     response = requests.request("GET", url, headers=headers, data = payload)
-    result = json.loads(response.text)
+    result = json.loads(response.text.encode("utf-8"))
     return result
