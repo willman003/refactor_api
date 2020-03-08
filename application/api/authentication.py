@@ -1,5 +1,5 @@
 from ..models import *
-from . import api
+from . import api, api_login
 from .errors import *
 
 from flask import jsonify, request, g
@@ -24,7 +24,7 @@ def verify_token(token):
     
     return g.current_user is not None
 
-@api.route('/tokens',methods=['POST'])
+@api_login.route('/tokens',methods=['POST'])
 @auth.login_required
 def get_token():
     token = g.current_user.get_token()
@@ -41,11 +41,11 @@ def revoke_token():
     db.session.commit()
     return '', 204
 
-# @api.before_request
-# @token_auth.login_required
-# def before_request():
-#     if not g.current_user.is_authenticated :
-#         return jsonify({
-#             'status':401,
-#             'message':'Unauthentication'
-#         }) 
+@api.before_request
+@token_auth.login_required
+def before_request():
+    if not g.current_user.is_authenticated :
+        return jsonify({
+            'status':401,
+            'message':'Unauthentication'
+        }) 

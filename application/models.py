@@ -72,8 +72,8 @@ class Nguoi_dung(db.Model):
     ho_ten = db.Column(db.String(200))
     ten_dang_nhap = db.Column(db.String(64), nullable = False)
     mat_khau_hash = db.Column(db.String(128), nullable = False)
-    # token = db.Column(db.String(32), index=True, unique=True)
-    # token_expiration = db.Column(db.DateTime)
+    token = db.Column(db.String(32), index=True, unique=True)
+    token_expiration = db.Column(db.DateTime)
 
     loai_nguoi_dung = db.relationship(Loai_nguoi_dung,backref=db.backref('nguoi_dung',lazy='joined')) 
     @property

@@ -2,7 +2,7 @@ from flask import request, jsonify
 
 from datetime import datetime
 
-from . import api
+from . import api, api_login
 from .authentication import token_auth
 
 from ..models import *
