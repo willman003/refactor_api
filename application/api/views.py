@@ -110,7 +110,14 @@ def get_product(id):
         message['message'] = 'Resources Not Found'
     return jsonify(message)
 
+@api.route('/products/categories',methods=['GET'])
+def get_product_category():
+    list_category = Loai_san_pham.query.all()
+    message['result'] = [category.to_json() for category in list_category]
+    return jsonify(message)
+
 @api.route('/products',methods=['POST'])
+@token_auth.login_required
 def create_product():
     item = request.get_json()
     product = San_pham()

@@ -12,6 +12,14 @@ class Loai_san_pham(db.Model):
     ten_loai = db.Column(db.String(50), nullable = False)
     mo_ta = db.Column(db.Text)
     
+    def to_json(self):
+        json_category={
+            "category_id":self.ma_loai,
+            "category_name":self.ten_loai,
+            
+        }
+        return json_category
+
     def __str__(self):
         return self.ten_loai
 
@@ -23,7 +31,7 @@ class San_pham(db.Model):
     gia_ban = db.Column(db.Integer, nullable = False)
     gia_nhap = db.Column(db.Integer, nullable = False, default = 0)
     so_luong_ton = db.Column(db.Integer, nullable = False, default = 0)
-    id_sendo = db.Column(db.Integer)
+    mo_ta = db.Column(db.Text)
     thuoc_tinh = db.Column(db.String(200))
     current_nhap_hang = db.Column(db.String(200))
     current_edit_price = db.Column(db.String(200))
@@ -64,8 +72,8 @@ class Nguoi_dung(db.Model):
     ho_ten = db.Column(db.String(200))
     ten_dang_nhap = db.Column(db.String(64), nullable = False)
     mat_khau_hash = db.Column(db.String(128), nullable = False)
-    token = db.Column(db.String(32), index=True, unique=True)
-    token_expiration = db.Column(db.DateTime)
+    # token = db.Column(db.String(32), index=True, unique=True)
+    # token_expiration = db.Column(db.DateTime)
 
     loai_nguoi_dung = db.relationship(Loai_nguoi_dung,backref=db.backref('nguoi_dung',lazy='joined')) 
     @property
@@ -123,15 +131,12 @@ class Nguoi_dung(db.Model):
             "user_id":self.ma_nguoi_dung,
             "access_level":self.ma_loai_nguoi_dung,
             "name":self.ho_ten,
-            "username":self.ten_dang_nhap
+            "username":self.ten_dang_nhap,
+            "password":self.mat_khau_hash
             
         }
         return json_user
    
-    
-
-
-
 class Khach_hang(db.Model):
     __tablename__ = 'khach_hang'
     ma_khach_hang = db.Column(db.Integer, nullable = False, primary_key = True)
