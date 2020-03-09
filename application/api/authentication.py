@@ -9,6 +9,14 @@ from flask_httpauth import HTTPTokenAuth
 auth = HTTPBasicAuth()
 token_auth = HTTPTokenAuth()
 
+@auth.error_handler
+def auth_error():
+    return unauthorized('Invalid Credentials')
+
+@token_auth.error_handler
+def token_error():
+    return unauthorized('Invalid Credentials')
+
 @auth.verify_password
 def verify_password(username, password):
     user = Nguoi_dung.query.filter_by(ten_dang_nhap = username).first()
@@ -47,5 +55,5 @@ def before_request():
     if not g.current_user.is_authenticated :
         return jsonify({
             'status':401,
-            'message':'Unauthentication'
+            'message':'Unauthorization'
         }) 

@@ -34,3 +34,8 @@ def register():
             form.mat_khau.data)
         
     return render_template('register.html', form = form, status = status)
+
+@auth_login.route('/logout',methods=['GET','POST'])
+def logout():
+    session.clear()
+    return redirect(url_for('main.index'))

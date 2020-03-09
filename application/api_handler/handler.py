@@ -18,6 +18,7 @@ def api_authentication():
     token = result['token']
     return token
 
+#API_USER
 def api_get_users():
     url = "http://localhost:5555/api/v1/users"
 
@@ -30,6 +31,7 @@ def api_get_users():
     result = json.loads(response.text.encode("utf-8"))
     return result
 
+#API_CUSTOMER
 def api_get_customer(id):
     url = "http://localhost:5555/api/v1/customers/"+str(id)
 
@@ -74,6 +76,7 @@ def api_create_customer(name,email,address,phone,username,password):
     result = json.loads(response.text.encode("utf-8"))
     return result['status']
 
+#API_PRODUCT
 def api_get_list_category():
     url = "http://localhost:5555/api/v1/products/categories"
 
@@ -142,3 +145,6 @@ def api_create_product(product_name,product_category,price,stock_price,quantity,
     result = response.json()
     
     return result['status']
+
+#API_ORDER
+#API_ORDER'S DETAIL

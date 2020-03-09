@@ -4,7 +4,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 
 from . import api, api_login
-from .authentication import token_auth
 
 from ..models import *
 from .. import db
@@ -168,7 +167,6 @@ def get_category_name(id):
 
 
 @api.route('/products',methods=['POST'])
-@token_auth.login_required
 def create_product():
     item = request.get_json()
     product = San_pham()

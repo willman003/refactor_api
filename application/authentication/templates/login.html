@@ -12,12 +12,12 @@
     <form method="POST">
         {{form.hidden_tag()}}
         <div class="form-row text-left">
-            {{form.ten_dang_nhap.label(for="ten_dang_nhap",class="form-group col-sm-3")}}
-            {{form.ten_dang_nhap(class="form-group form-control col-sm-9")}}
+            {{form.ten_dang_nhap.label(for="ten_dang_nhap",class="form-group col-sm-4")}}
+            {{form.ten_dang_nhap(class="form-group form-control col-sm-8")}}
         </div>
         <div class="form-row text-left">
-            {{form.mat_khau.label(for="mat_khau",class="form-group col-sm-3")}}
-            {{form.mat_khau(class="form-group form-control col-sm-9")}}
+            {{form.mat_khau.label(for="mat_khau",class="form-group col-sm-4")}}
+            {{form.mat_khau(class="form-group form-control col-sm-8")}}
         </div>
         
         <div class="row" style="color: grey;font-size: smaller;">
@@ -28,7 +28,7 @@
         <p></p>
         <div class="row">
             <div class="col-sm-12">
-                Chưa có tài khoản ? <a href = "#">Đăng ký</a>
+                Chưa có tài khoản ? <a href = "{{url_for('auth_login.register')}}">Đăng ký</a>
             </div>
         </div>
         <p></p>

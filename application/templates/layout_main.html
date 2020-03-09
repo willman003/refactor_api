@@ -23,7 +23,7 @@
         opacity: 0.7;
       }
       nav a{
-        margin-right: 50px;
+        margin-right: 30px;
       }
       #logo{
         font-family: 'Dancing Script', cursive;
@@ -48,7 +48,7 @@
   </head>
   <body>
     <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="#" id="logo">Mae Wallet</a>
+      <a class="navbar-brand" href="{{url_for('main.index')}}" id="logo">Mae Wallet</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -74,13 +74,20 @@
             </div>
           </li>
           {%if session.get('customer')%}
-          <li class="nav-item">
-            <a href="#" class="nav-link"> Chào, {{session['customer']['customer_name']}}</a>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Chào, {{session['customer']['customer_name']}}
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href="#">Thông tin tài khoản</a>
+              <hr>
+              <a class="dropdown-item" href="{{url_for('auth_login.logout')}}">Đăng xuất</a>
+            </div>
           </li>
-
+          
           {%else%}
           <li class="nav-item">
-            <a href="#" class="nav-link"> Đăng nhập</a>
+            <a href="{{url_for('auth_login.login')}}" class="nav-link"> Đăng nhập</a>
           </li>
           {%endif%}
           <li class="nav-item">
