@@ -79,7 +79,7 @@
               Chào, {{session['customer']['customer_name']}}
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              <a class="dropdown-item" href="#">Thông tin tài khoản</a>
+              <a class="dropdown-item" href="{{url_for('auth_login.account_information')}}">Thông tin tài khoản</a>
               <hr>
               <a class="dropdown-item" href="{{url_for('auth_login.logout')}}">Đăng xuất</a>
             </div>
@@ -126,18 +126,13 @@
               <div>
                 Follow me at:
               </div>
-              <div>
-                maewallet.com
-              </div>
-              <div>
-                +84 2131231231
-              </div>
-              <div>
-                instagram: @mae.wallet
-              </div>
-              <div>
-                facebook: @mae.wallet
-              </div>
+              <ul>
+                <li>maewallet.com</li>
+                <li>(+84 2131231231)</li>
+                <li>instagram: @mae.wallet</li>
+                <li>facebook: @mae.wallet</li>
+              </ul>
+              
             </div>            
           </div>
           

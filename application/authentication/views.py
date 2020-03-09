@@ -39,3 +39,10 @@ def register():
 def logout():
     session.clear()
     return redirect(url_for('main.index'))
+
+@auth_login.route('/account',methods=['GET','POST'])
+def account_information():
+    customer = api_get_customer(session['customer']['customer_id'])
+    form = Form_cap_nhat()
+
+    return render_template('account_info.html',form=form,customer=customer)

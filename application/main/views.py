@@ -42,7 +42,12 @@ def product_detail(id):
     dict_category = {}
     for item in api_get_list_category():
         dict_category[item['category_id']] = item['category_name']
-    
-
     return render_template('product_detail.html', list_product = list_product, product = product, dict_category = dict_category, form = form)
 
+# @main.route('/shopping/cart/<int:id>',methods=['GET','POST'])
+# def add_cart(id):
+#     return redirect(url_for('main.index'))
+
+# @main.route('/shopping/cart',methods=['GET','POST'])
+# def shopping_cart():
+#     return render_template('shopping_cart.html')

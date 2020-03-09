@@ -1,0 +1,46 @@
+{%extends 'layout_main.html'%}
+{%block content%}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 text-center">
+            <h2><b>Thông tin tài khoản</b></h2>
+        </div>
+    </div>
+    <p></p>
+    <form method="POST">
+        {{form.hidden_tag()}}
+        <div class="form-row text-left">
+            {{form.ten_khach_hang.label(for="ten_khach_hang",class="form-group col-sm-4")}}
+            {{form.ten_khach_hang(class="form-group form-control col-sm-8", value = customer['customer_name'])}}
+        </div>
+        <div class="form-row text-left">
+            {{form.email.label(for="email",class="form-group col-sm-4")}}
+            {{form.email(class="form-group form-control col-sm-8",value = customer['customer_email'])}}
+        </div>
+        <div class="form-row text-left">
+            {{form.dia_chi.label(for="dia_chi",class="form-group col-sm-4")}}
+            {{form.dia_chi(class="form-group form-control col-sm-8",value = customer['customer_address'])}}
+        </div>
+        <div class="form-row text-left">
+            {{form.dien_thoai.label(for="dien_thoai",class="form-group col-sm-4")}}
+            {{form.dien_thoai(class="form-group form-control col-sm-8",value = customer['customer_phone'])}}
+        </div>
+        <div class="form-row text-left">
+            {{form.ten_dang_nhap.label(for="ten_dang_nhap",class="form-group col-sm-4")}}
+            {{form.ten_dang_nhap(class="form-group form-control col-sm-8",value = customer['customer_username'])}}
+        </div>
+        <div class="form-row text-left">
+            {{form.mat_khau.label(for="mat_khau",class="form-group col-sm-4")}}
+            {{form.mat_khau(class="form-group form-control col-sm-8")}}
+        </div>
+        
+        <p></p>
+        <div class="form-row">
+            <div class="col-sm-12 text-center">
+                {{form.submit(class="btn btn-dark")}}
+            </div>            
+        </div>
+
+    </form>
+</div>
+{%endblock%}
