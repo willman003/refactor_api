@@ -1,0 +1,76 @@
+{% extends 'layout_main.html'%}
+{%block content%}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <img src="{{url_for('static',filename='images/'+ product['id']|string +'.jpg')}}" class="card-img-top"
+                alt="...">
+        </div>
+        <div class="col-md-6">
+            <div style="position: relative; top: 50px;">
+                <p>{{dict_category[product['category']]}}</p>
+                <div style="color:grey;font-size: smaller;">
+                    <p><small>{{product['name']}}</small></p>
+
+                    <p><small>{{product['description']}}</small></p>
+
+                    <h4>{{product['sell_price']}}$</h4>
+                </div>
+                <div>
+                    <form method="POST">
+                        <div class="form-row">
+                            {{form.so_luong(class='form-group form-control col-sm-1',value=1)}}
+                        </div>
+                        <div class="form-row">
+                            {{form.submit(class='btn btn-dark')}}
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <img class="img-fluid" src="{{url_for('static',filename='images/detail_1.jpg')}}" alt="detail_1">
+        </div>
+    </div>
+    
+</div>
+<p></p>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <img class="img-fluid" src="{{url_for('static',filename='images/detail_2.jpg')}}" alt="detail_1">
+        </div>
+    </div>
+</div>
+<p></p>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 text-left">
+            Also available in:
+        </div>
+    </div>
+    <div class="row">
+        {%for i in range(4)%}
+        <div class="col-sm-3 text-center">
+            <div class="card border-0" style="width: 18rem;" style="border: none;">
+                
+                <img src="{{url_for('static',filename='images/'+ list_product[i]['id']|string +'.jpg')}}" class="card-img-top" alt="...">
+                <div class="card-body">
+                  <div class="card-text">{{dict_category[list_product[i]['category']]}}</div>
+                  <div class="card-text" style="color: grey; font-size: smaller;"><small>{{list_product[i]['name']}}</small></div>
+                  <div class="card-text" style="color: grey; font-size: smaller;"><small>{{list_product[i]['sell_price']}}$</small></div>
+                </div>
+            </div>
+        
+        </div>
+        {%endfor%}
+    </div>
+</div>
+
+{%endblock%}

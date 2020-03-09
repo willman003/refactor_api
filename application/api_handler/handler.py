@@ -30,7 +30,51 @@ def api_get_users():
     result = json.loads(response.text.encode("utf-8"))
     return result
 
-def api_get_category():
+def api_get_customer(id):
+    url = "http://localhost:5555/api/v1/customers/"+str(id)
+
+    payload  = {}
+    headers = {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer ' + api_authentication()
+    }
+    response = requests.request("GET", url, headers=headers, data = payload)
+    result = json.loads(response.text.encode("utf-8"))
+    return result['result']
+
+
+def api_get_list_customer():
+    url = "http://localhost:5555/api/v1/customers"
+
+    payload  = {}
+    headers = {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer ' + api_authentication()
+    }
+    response = requests.request("GET", url, headers=headers, data = payload)
+    result = json.loads(response.text.encode("utf-8"))
+    return result['result']
+
+def api_create_customer(name,email,address,phone,username,password):
+    url = "http://localhost:5555/api/v1/customers"
+
+    payload = {
+        "name":name,
+        "email":email,
+        "address":address,
+        "phone":phone,
+        "username":username,
+        "password":password
+    }
+    headers = {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer ' + api_authentication()
+    }
+    response = requests.request("POST", url, headers=headers, json = payload)
+    result = json.loads(response.text.encode("utf-8"))
+    return result['status']
+
+def api_get_list_category():
     url = "http://localhost:5555/api/v1/products/categories"
 
     payload = {}
@@ -42,8 +86,20 @@ def api_get_category():
     response = requests.request("GET", url, headers=headers, data = payload)
     result = response.json()
     return result['result']
+def api_get_category(id):
+    url = "http://localhost:5555/api/v1/products/categories/" + str(id)
+    payload = {}
+    headers = {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer ' + api_authentication()
+    }
 
-def api_get_products():
+    response = requests.request("GET", url, headers=headers, data = payload)
+    result = response.json()
+    return result['result']
+
+
+def api_get_list_products():
     url = "http://localhost:5555/api/v1/products"
 
     payload  = {}
@@ -55,16 +111,31 @@ def api_get_products():
     result = json.loads(response.text.encode("utf-8"))
     return result['result']
 
-def api_create_product(product_name,price,stock_price,quantity):
+def api_get_product(id):
+    url = "http://localhost:5555/api/v1/products/" + str(id)
+
+    payload  = {}
+    headers = {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer ' + api_authentication()
+    }
+    response = requests.request("GET", url, headers=headers, data = payload)
+    result = json.loads(response.text.encode("utf-8"))
+    return result['result']
+
+
+def api_create_product(product_name,product_category,price,stock_price,quantity, description):
     url = "http://localhost:5555/api/v1/products"
 
     payload = {"product_name":product_name,
+        "product_category":product_category,
         "price":price,
         "stock_price":stock_price,
-        "quantity":quantity}
+        "quantity":quantity,
+        "description":description}
     headers = {
     'Content-Type': 'application/json',
-    'Authorization': 'Bearer amhDtj6nSFXO3QCr9vpu2bCwbfChTrU1'
+    'Authorization': 'Bearer ' + api_authentication()
     }
 
     response = requests.request("POST", url, headers=headers, json = payload)

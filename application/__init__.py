@@ -1,9 +1,11 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
+
 from config import config
 
 db = SQLAlchemy()
+
 
 def create_app(config_name):
     app = Flask(__name__)
@@ -12,6 +14,7 @@ def create_app(config_name):
 
     #Initialization
     db.init_app(app)
+    
 
     #Blueprint registration
     from .api import api as api_bp
@@ -20,5 +23,7 @@ def create_app(config_name):
     app.register_blueprint(main_bp)
     from .api import api_login as api_login_bp
     app.register_blueprint(api_login_bp,url_prefix="/api/v1")
+    from .authentication import auth_login as auth_bp
+    app.register_blueprint(auth_bp,url_prefix='/authentication')
 
     return app

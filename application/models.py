@@ -1,6 +1,8 @@
 from . import db
+from .api_handler.handler import *
 
 from werkzeug.security import generate_password_hash, check_password_hash
+
 import base64
 from datetime import datetime, timedelta
 import os
@@ -48,9 +50,10 @@ class San_pham(db.Model):
             "id":self.ma_san_pham,
             "name":self.ten_san_pham,
             "category":self.ma_loai,
-            "import_price":self.gia_ban,
-            "sell_price":self.gia_nhap,
-            "stock_quantity":self.so_luong_ton
+            "import_price":self.gia_nhap,
+            "sell_price":self.gia_ban,
+            "stock_quantity":self.so_luong_ton,
+            "description":self.mo_ta
         }
         return json_product
     
@@ -144,13 +147,52 @@ class Khach_hang(db.Model):
     email = db.Column(db.String(100))
     dia_chi = db.Column(db.String(200))
     dien_thoai = db.Column(db.String(20))
+    ten_dang_nhap = db.Column(db.String(64))
+    mat_khau_hash = db.Column(db.String(128))
+    access_level = db.Column(db.Integer)
+    @property
+    def is_authenticated(self):
+        return True
+    @property
+    def is_active(self):
+        return True
+    @property
+    def is_anonymous(self):
+        return False
     
-    def __str__(self):
-        return self.dia_chi
-
     def get_id(self):
         return self.ma_khach_hang
+
+    def __unicode__(self):
+        return self.ten_khach_hang
     
+    def __str__(self):
+        return self.ten_dang_nhap
+
+    @property
+    def password(self):
+        raise AttributeError('password is not a readable attribute')
+
+    @password.setter
+    def set_password(self, password):
+        self.mat_khau_hash = generate_password_hash(password)
+
+    def verify_password(self, password):
+        return check_password_hash(self.mat_khau_hash, password)
+    
+    def to_json(self):
+        json_customer={
+            "customer_id":self.ma_khach_hang, 
+            "customer_name":self.ten_khach_hang,
+            "customer_email":self.email,
+            "customer_address":self.dia_chi,
+            "customer_phone":self.dien_thoai,
+            "customer_username":self.ten_dang_nhap, 
+            "customer_password":self.mat_khau_hash, 
+            "access_level":self.access_level
+        }
+        return json_customer
+
 class Hoa_don(db.Model):
     __tablename__ = 'hoa_don'
     ma_hoa_don = db.Column(db.Integer, nullable = False, primary_key = True)
@@ -226,3 +268,5 @@ class Thu_chi(db.Model):
 
     def __str__(self):
         return self.ten
+
+

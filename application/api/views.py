@@ -1,4 +1,5 @@
 from flask import request, jsonify
+from werkzeug.security import generate_password_hash, check_password_hash
 
 from datetime import datetime
 
@@ -93,6 +94,45 @@ def delete_user(id):
         message['message'] = 'Resources Not Found'
     return jsonify(message)
 
+#Customer resource
+@api.route('/customers',methods=['GET'])
+def get_list_customers():
+    list_customers = Khach_hang.query.all()
+    message['result'] = [customer.to_json() for customer in list_customers]
+    message['status'] = 200
+    return jsonify(message)
+
+@api.route('/customers/<int:id>',methods=['GET'])
+def get_customer(id):
+    customer = Khach_hang.query.filter_by(ma_khach_hang=id).first()
+    if customer:
+        message['result'] = customer.to_json()
+        message['status'] = 200
+    else:
+        message['status'] = 404
+        message['message'] = "Resourcs Not Found"
+    return jsonify(message)
+
+
+@api.route('/customers',methods=['POST'])
+def create_customer():
+    item = request.get_json()
+    customer = Khach_hang()
+    customer.ten_khach_hang = item['name']
+    customer.email = item['email']
+    customer.dia_chi = item['address']
+    customer.dien_thoai = item['phone']
+    customer.ten_dang_nhap = item['username']
+    customer.mat_khau_hash= generate_password_hash(item['password'])
+    customer.access_level = 0
+    db.session.add(customer)
+    db.session.commit()
+    item['id'] = customer.get_id()
+    message['status'] = 200
+    message['message'] = 'Successfully Created'
+    message['result'] = item
+    return jsonify(message)
+
 #Product resource
 @api.route('/products',methods=['GET'])
 def get_list_product():
@@ -116,15 +156,28 @@ def get_product_category():
     message['result'] = [category.to_json() for category in list_category]
     return jsonify(message)
 
+@api.route('/products/categories/<int:id>',methods=['GET'])
+def get_category_name(id):
+    category = Loai_san_pham.query.filter_by(ma_loai=id).first()
+    if category:
+        message['result'] = category.to_json()
+    else:
+        message['status'] = 404
+        message['message'] = "Resources Not Found"
+    return jsonify(message)
+
+
 @api.route('/products',methods=['POST'])
 @token_auth.login_required
 def create_product():
     item = request.get_json()
     product = San_pham()
     product.ten_san_pham = item['product_name'].upper()
+    product.ma_loai = item['product_category']
     product.gia_ban = item['price']
     product.gia_nhap = item['stock_price']
     product.so_luong_ton = item['quantity']
+    product.mo_ta = item['description']
     db.session.add(product)
     db.session.commit()
     item['id'] = product.get_id()

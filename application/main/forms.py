@@ -2,6 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import fields,validators
 
 
+
 class Form_tao_san_pham(FlaskForm):
     ten_san_pham = fields.StringField('Tên sản phẩm:', [validators.required('Tên sản phẩm bỏ trống')])
     ten_loai = fields.SelectField('Loại:', [validators.required('Tên sản phẩm bỏ trống')])
@@ -11,3 +12,7 @@ class Form_tao_san_pham(FlaskForm):
     mo_ta = fields.TextField('Mô tả:')
     so_luong_ton = fields.IntegerField('Số lượng: ')
     submit = fields.SubmitField('Tạo')
+
+class Form_mua_hang(FlaskForm):
+    so_luong = fields.IntegerField('Số lượng',[validators.required()])
+    submit = fields.SubmitField('Thêm vào giỏ hàng')

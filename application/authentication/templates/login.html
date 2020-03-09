@@ -1,0 +1,55 @@
+{%extends 'layout_main.html'%}
+{%block content%}
+
+<div class="container text-center" style="padding: 20px 20px; width: 40%;">
+    <div class="row">
+        <div class="col-sm-12">
+            <h2>Đăng nhập</h2>
+        </div>
+
+    </div>
+    <p></p>
+    <form method="POST">
+        {{form.hidden_tag()}}
+        <div class="form-row text-left">
+            {{form.ten_dang_nhap.label(for="ten_dang_nhap",class="form-group col-sm-3")}}
+            {{form.ten_dang_nhap(class="form-group form-control col-sm-9")}}
+        </div>
+        <div class="form-row text-left">
+            {{form.mat_khau.label(for="mat_khau",class="form-group col-sm-3")}}
+            {{form.mat_khau(class="form-group form-control col-sm-9")}}
+        </div>
+        
+        <div class="row" style="color: grey;font-size: smaller;">
+            <div class="col-sm-12 text-right">
+                <a href = "#">Quên mật khẩu ?</a>
+            </div>
+        </div>
+        <p></p>
+        <div class="row">
+            <div class="col-sm-12">
+                Chưa có tài khoản ? <a href = "#">Đăng ký</a>
+            </div>
+        </div>
+        <p></p>
+        <div class="form-row">
+            <div class="col-sm-12">
+                {{form.submit(class="btn btn-dark")}}
+            </div>            
+        </div>
+
+    </form>
+    <p></p>
+    {%if thong_bao != ''%}
+    <div class="row">
+        <div class="col-sm-12 text-center">
+            {{thong_bao}}
+        </div>
+
+    </div>
+    {%endif%}
+       
+    
+</div>
+
+{%endblock%}

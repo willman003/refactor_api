@@ -2,12 +2,15 @@
 {%block content%}
 <div class="container-fluid">
     <div class="row">
-        {%for item in range(20)%}
-        <div class="col-sm-3">
+        {%for item in list_product%}
+        <div class="col-sm-3 text-center">
             <div class="card border-0" style="width: 18rem;" style="border: none;">
-                <img src="{{url_for('static',filename='images/makr_lux_zip_oxblood_1.jpg')}}" class="card-img-top" alt="...">
+                
+                <img src="{{url_for('static',filename='images/'+ item['id']|string +'.jpg')}}" class="card-img-top" alt="...">
                 <div class="card-body">
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                  <div class="card-text">{{dict_category[item['category']]}}</div>
+                  <div class="card-text" style="color: grey; font-size: smaller;"><small>{{item['name']}}</small></div>
+                  <div class="card-text" style="color: grey; font-size: smaller;"><small>{{item['sell_price']}}$</small></div>
                 </div>
             </div>
         
